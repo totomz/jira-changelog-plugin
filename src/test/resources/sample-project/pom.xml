@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.myideas.test</groupId>
+	<artifactId>simple-java-project</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>simple-java-project</name>
+	<description>A simple JavaSE project</description>
+
+	<dependencies>
+
+		<dependency>
+			<!-- 
+				@JIRAChangeLog
+				 @projectKey = OPTIMADUS
+				 @jql = argh argh argh
+			 -->
+			 <!-- Questo commento dovrebbe essere ignorato -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.2</version>
+			<scope>provided</scope>			
+		</dependency>
+		<dependency>
+			<!-- Posso annotare JIRAChangeLog senza usare opzioni - i valori di default (e del pom) sono usati -->
+			<!-- @JIRAChangeLog -->
+			<!-- @JIRAChangeLog
+				@urka, mi hai messo un commento in più! Ma viene utilizzato sempre e solo il primo!
+			 -->
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4-tde-2.2-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<!-- This dependency will be ignored -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<!-- 
+				This plugin reads the pom and download the changelog for this artifact
+				and all dependencies from JIRA.
+				
+				How to use
+				- For each dependency for which you want to download the changelog,
+					add a comment that contains '@JIRAChangeLog', Each property must starts with @ and be on a single line
+					Only the first @JIRAChangeLog comment is parsed , it is safe to add multiple comments on each <deployment> element
+				- The plugin perform this JQL 'status in (Resolved, Closed) and project = @projectKey and fixVersion = @version',
+					unless a @jql filter is excplicity defined. 	
+				
+				*DOCS:				
+				- The <dependency.version> must match the version in JIRA, unless @version is specified. -SNAPSHOT is always trimmed away
+				- If a @jql string is specified, it is executed overriding the default behaviour.
+				- @projectKey is the JIRA project key; if not defined, <artifactId> is used
+			 -->
+			<plugin>
+				<groupId>it.myideas.mvn</groupId>
+				<artifactId>jira-changelog.downlaoder</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jira-changelog</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jiraurl>http://jira.sistemaits.com</jiraurl> 	<!-- Base url for JIRA -->
+					<jiraUser>tommaso.doninelli</jiraUser>			<!-- JIRA web authentication -->
+					<jiraPassword>doninelli</jiraPassword>
+					<tplData>										<!-- These map is passed to the template; additional objects are "pom" and "dependencies" -->
+						<title>CHANGELOG</title>						
+					</tplData>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
