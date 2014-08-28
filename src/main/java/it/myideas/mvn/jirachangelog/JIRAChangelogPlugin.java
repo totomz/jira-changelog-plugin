@@ -97,8 +97,11 @@ public class JIRAChangelogPlugin extends AbstractMojo {
 				throw new MojoFailureException("Custom template are not supported yet - remove the config");
 			}
 		
+			tplData.put("jiraurl", jiraurl);
+			
 			tplData.put("pom", pom);
 			tplData.put("dependencies", dependencies);
+			
 			
 			try(FileWriter out = new FileWriter(outputFile)){
 				template.process(tplData, out);

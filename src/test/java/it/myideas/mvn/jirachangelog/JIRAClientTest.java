@@ -60,9 +60,11 @@ public class JIRAClientTest {
 		assertNotNull(issues);	
 		 
 		for(int i=0; i<2; i++){
+		    System.out.println("-----------");
 			Issue issue = issues.get(i);
 			System.out.println(issue.getKey());
 			System.out.println(issue.getIssueType().getName());
+			System.out.println(issue.getSelf());
 			System.out.println(issue.getStatus().getName());
 			System.out.println(issue.getResolution());
 			System.out.println(issue.getPriority().getName());

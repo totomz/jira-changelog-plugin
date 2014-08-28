@@ -35,7 +35,7 @@ public class PomParser {
 		
 		HashMap<String, AnnotatedDependency> depMap = new HashMap<String, AnnotatedDependency>(depList.size());
 		for(AnnotatedDependency dep : depList){
-			depMap.put(dep.artifactId, dep);
+			depMap.put(dep.getArtifactId(), dep);
 		}
 		
 		assertNotNull("Dependency commons-io not found, or was not annotated", depMap.get("commons-io"));

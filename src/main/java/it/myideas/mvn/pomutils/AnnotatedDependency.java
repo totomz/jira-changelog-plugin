@@ -12,14 +12,15 @@ import com.atlassian.jira.rest.client.domain.Issue;
  */
 public class AnnotatedDependency {
 	
-	public String artifactId;
-	public String version;
+    private String artifactId;
+    private String version;
 //	public String jiraUser;
 //	public String jiraPasswd;
 //	public String jiraUrl;
-	public String projectKey;
-	public String jql;	
+	private String projectKey;
+	private String jql;	
 	private List<Issue> issues;
+    private String originalVersion;
 	
 	public AnnotatedDependency(){}
 	
@@ -35,10 +36,20 @@ public class AnnotatedDependency {
 		return version;
 	}
 	
+	public String getJiraVersion(){
+	    return this.originalVersion;
+	}
+	
 	public void setVersion(String version) {
+	    this.originalVersion = version;
 		version = version.replace("-SNAPSHOT", "");	// strip -SNAPSHOT from the version
 		this.version = version;
 	}
+	
+	
+    public List<Issue> getIssues() {
+        return issues;
+    }
 	
 //	public String getJiraUser() {
 //		return jiraUser;

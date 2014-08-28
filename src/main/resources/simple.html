@@ -129,13 +129,13 @@
         This report contains the change log for all the modules that build ${pom.getArtifactId()}. <br />
     </p>
 
-    <!-- MODULE -->
+    <#list dependencies as dep>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">optima-wsi</h3>
+            <h3 class="panel-title">${dep.getArtifactId()}</h3>
         </div>
         <div class="panel-body">
-            <span class="label label-primary">v 2.4.0-SNAPSHOT</span>
+            <span class="label label-primary">v ${dep.getJiraVersion()}</span>
             <table class="table table-hover">
                 <thead>
                 <th width="10%">#</th>
@@ -143,24 +143,40 @@
                 <th>Summary</th>
                 </thead>
                 <tbody>
-                    <tr class="danger"><td><a href="#">#OWSI-123</a></td><td><span class="icon icon-wrench"></span> Bug</td><td>A fake bug</td></tr>
-                    <tr class="danger"><td><a href="#">#OWSI-123</a></td><td><span class="icon icon-wrench"></span> Bug</td><td>A fake bug</td></tr>
+                	<#assign issues=dep.getIssues() >
+                	<#list issues as issue>
+                	<#assign issueKey=issue.getKey() >
+                	<#assign issueType=issue.getIssueType().getName() >
+            		<#assign cssClass = "">
+            		<#assign icon = "">
 
-                    <tr class="success"><td><a href="#">#OWSI-123</a></td><td><span class="icon icon-plus"></span> New Feature</td><td>A fake bug</td></tr>
-                    <tr class="success"><td><a href="#">#OWSI-123</a></td><td><span class="icon icon-plus"></span> New Feature</td><td>A fake bug</td></tr>
+            		<#if issueType=="Bug" >
+            			<# cssClass="danger" >
+            			<# icon="icon-wrench" >
+            		<#elseif issueType=="New Feature" >
+            			<# cssClass="success" >
+            			<# icon="icon-plus" >
+            		<#elseif issueType=="Improvement" >
+            			<# cssClass="info" >
+            			<# icon="icon-gear" >
+            		<#else >
+            			<# cssClass="" >
+            			<# icon="icon-star" >
+            		</#fi>
 
-                    <tr class="info"><td><a href="#">OWSI-123</a></td><td><span class="icon icon-gear"></span> Improvement</td><td>A fake bug</td></tr>
-                    <tr class="info"><td><a href="#">OWSI-123</a></td><td><span class="icon icon-gear"></span> Improvement</td><td>A fake bug</td></tr>
-
-                    <tr><td><a href="#">OWSI-123</a></td><td><span class="icon icon-star"></span> Task</td><td>A fake bug</td></tr>
-                    <tr><td><a href="#">OWSI-123</a></td><td><span class="icon icon-star"></span> Documentazione</td><td>A fake bug</td></tr>
-
+                    <tr class="${cssClass}">
+                    	<td><a href="${"${jiraUrl}/browse/${issueKey}"}">${issueKey}</a></td>
+                    	<td><span class="icon ${icon}"></span> ${issueType}</td>
+                    	<td>${issue.getSummary()}</td>
+                	</tr>
+					<#list>
                 </tbody>
             </table>
         </div>
     </div>
-
-
+    <#list>
+</div>
+    
     <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
 </div>
 
